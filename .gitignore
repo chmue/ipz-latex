@@ -1,0 +1,7 @@
+# ignore LaTeX compilation files
+*.log
+*.aux
+# ignore editor autosave/config files
+*.swp
+*~
+auto/
