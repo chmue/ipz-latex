@@ -8,10 +8,35 @@
 % 2. under the GNU Public License.
 %
 % See the file doc/licenses/LICENSE for more details.
-
-\ProvidesPackage{IPZstlye}[]
-
+% \NeedsTeXFormat{format}[release] % TODO
+\ProvidesPackage{IPZstyle}[2011/08/24 v0.1]
+%
+\RequirePackage{xkeyval}
+\RequirePackage{xifthen}
+% 
+% \define@boolkey+{IPZstyle.sty}{unicode}{%
+% \ifIPstyle.sty\unicode
+% \else
+% \fi
+% }{%
+% \PackageWarning{IPZstyle}{erroneous input ignored}%
+% }
+%
+\define@choicekey*+{IPZstyle.sty}{os}[\val\nr]{mac,win}[mac]{%
+\ifcase\nr\relax
+\PassOptionsToPackage{mac-roman}{inputenx}
+\PassOptionsToPackage{T1}{fontenc}
+\or
+\PassOptionsToPackage{latin1}{inputenx}
+\PassOptionsToPackage{T1}{fontenc}
+\fi
+}{%
+\PackageError{IPZstyle}{Invalid key for 'os' option}%
+}
+%
+\ProcessOptionsX
+% load packages with options defined above
+\RequirePackage{inputenx}
+\RequirePackage{fontenc}
 % TODO Titel nach IPZ-Blatt definieren
-
 \endinput
-
