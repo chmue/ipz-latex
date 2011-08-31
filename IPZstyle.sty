@@ -1,6 +1,6 @@
 % Copyright 2011 by Christian Müller und Nicolas Zahn
 %
-% TODO Description
+% TODO package description
 %
 % This file may be distributed and/or modified
 %
@@ -31,12 +31,33 @@
 \PassOptionsToPackage{T1}{fontenc}
 \fi
 }{%
-\PackageError{IPZstyle}{Invalid key for 'os' option}%
+\PackageError{IPZstyle}{Invalid value for 'os' option}%
 }
 %
+% set english as standard language if 'lang'-key is not set
+% not setting this results in an error of the 'babel'-package
+\PassOptionsToPackage{english}{babel}
+\define@choicekey*+{IPZstyle.sty}{lang}[\val\nr]{de,en}[de]{%
+\ifcase\nr\relax
+\PassOptionsToPackage{ngermanb}{babel}
+\or
+\PassOptionsToPackage{english}{babel}
+\fi
+}{%
+\PackageError{IPZstyle}{Invalid value for 'lang' option}%
+}
 \ProcessOptionsX
 % load packages with options defined above
 \RequirePackage{inputenx}
 \RequirePackage{fontenc}
+\RequirePackage{babel}
+% load additional packages
+\RequirePackage{graphicx}
+\RequirePackage{tabularx}
+\RequirePackage{booktabs}
+\RequirePackage{xcolor}
+% \RequirePackage{}
+% TODO add some KOMA-parameters
+% \PassOptionsToClass{}{scrartcl}
 % TODO Titel nach IPZ-Blatt definieren
 \endinput
