@@ -8,12 +8,14 @@
 % 2. under the GNU Public License.
 %
 % See the file doc/licenses/LICENSE for more details.
-% \NeedsTeXFormat{format}[release] % TODO
+% TODO set latex format requiremet
+% \NeedsTeXFormat{format}[release]
 \ProvidesPackage{IPZstyle}[2011/08/24 v0.1]
-%
+%%%%%%%%%%
 \RequirePackage{xkeyval}
 \RequirePackage{xifthen}
-% 
+%%%%%%%%%%
+% TODO make option to enable unicode input encoding
 % \define@boolkey+{IPZstyle.sty}{unicode}{%
 % \ifIPstyle.sty\unicode
 % \else
@@ -33,19 +35,42 @@
 }{%
 \PackageError{IPZstyle}{Invalid value for 'os' option}%
 }
-%
-% set english as standard language if 'lang'-key is not set
+%%%%%%%%%
+% set german as standard language if 'lang'-key is not set;
 % not setting this results in an error of the 'babel'-package
-\PassOptionsToPackage{english}{babel}
+\PassOptionsToPackage{ngermanb}{babel}
 \define@choicekey*+{IPZstyle.sty}{lang}[\val\nr]{de,en}[de]{%
 \ifcase\nr\relax
-\PassOptionsToPackage{ngermanb}{babel}
+\PassOptionsToPackage{ngermanb}{babel}%
+\newcommand*{\IPZ@authorref}{AuthorIn:}%
+\newcommand*{\IPZ@university}{Universit\"at Z\"urich}%
+\newcommand*{\IPZ@institute}{Institut f\"ur Politikwissenschaft}
 \or
-\PassOptionsToPackage{english}{babel}
+\PassOptionsToPackage{english}{babel}%
+\newcommand*{\IPZ@authorref}{Author:}%
+\newcommand*{\IPZ@university}{University of Zurich}%
+\newcommand*{\IPZ@institute}{Department of Political Science}
 \fi
 }{%
 \PackageError{IPZstyle}{Invalid value for 'lang' option}%
 }
+%%%%%%%%%%
+% test wether 'class' is 'scrartcl' and pass some options to koma-script
+% FIXME passing options to komascript does not work!
+\ifthenelse{\isnamedefined{KOMAClassName}}{%
+\ifthenelse{\equal{\KOMAClassName}{scrartcl}}{%
+\PassOptionsToClass{paper=a4}{scrartcl}%
+\PassOptionsToClass{twoside=false}{scrartcl}%
+\renewcommand*{\@fontsizefilebase}{scrsize12pt.clo}
+}{%
+\PackageWarningNoLine{IPZstyle}{KOMA-Script article class is 
+not loaded.\MessageBreak IPZstyle works best with 'scrartcl'}
+}%
+}{%
+\PackageError{IPZstyle}{KOMA-Script needs to be loaded}{IPZstyle depends on 
+'scrartcl' class from the 'koma-script' package}%
+}
+%%%%%%%%%%
 \ProcessOptionsX
 % load packages with options defined above
 \RequirePackage{inputenx}
@@ -56,8 +81,93 @@
 \RequirePackage{tabularx}
 \RequirePackage{booktabs}
 \RequirePackage{xcolor}
-% \RequirePackage{}
-% TODO add some KOMA-parameters
-% \PassOptionsToClass{}{scrartcl}
-% TODO Titel nach IPZ-Blatt definieren
+%%%%%%%%%%
+% Titel nach IPZ-Blatt definieren
+\newcommand*{\term}[1]{\newcommand*{\IPZ@term}{#1}}
+\global\let\IPZ@term\@empty
+\global\let\IPZ@term\relax
+\newcommand*{\lecturer}[1]{\newcommand*{\IPZ@lecturer}{#1}}
+\global\let\IPZ@lecturer\@empty
+\global\let\IPZ@lecturer\relax
+\newcommand*{\course}[1]{\newcommand*{\IPZ@course}{#1}}
+\global\let\IPZ@course\@empty
+\global\let\IPZ@course\relax
+\newcommand*{\type}[1]{\newcommand*{\IPZ@type}{#1}}
+\global\let\IPZ@type\@empty
+\global\let\IPZ@type\relax
+% FIXME don't change \title etc. commands bc. this will very 
+% likely break class functionalities
+\renewcommand*{\title}[1]{\newcommand*{\IPZ@title}{#1}}
+\global\let\IPZ@title\@empty
+\global\let\IPZ@title\relax
+\renewcommand*{\subtitle}[1]{\newcommand*{\IPZ@subtitle}{#1}}
+\global\let\IPZ@subtitle\@empty
+\global\let\IPZ@subtitle\relax
+\renewcommand*{\date}[1]{\newcommand*{\IPZ@date}{#1}}
+\global\let\IPZ@date\@empty
+\global\let\IPZ@date\relax
+\renewcommand*{\author}[1]{\newcommand*{\IPZ@author}{#1}}
+\global\let\IPZ@author\@empty
+\global\let\IPZ@author\relax
+\newcommand*{\authorinfo}[1]{\newcommand*{\IPZ@authorinfo}{#1}}
+\global\let\IPZ@authorinfo\@empty
+\global\let\IPZ@authorinfo\relax
+\newcommand*{\wordcount}[1]{\newcommand*{\IPZ@wordcount}{#1}}
+\global\let\IPZ@wordcount\@empty
+\global\let\IPZ@wordcount\relax
+% TODO add possibility to add a word count
+%%%%%%%%%%
+\renewcommand*\maketitle{%
+\begin{titlepage}
+  \begin{minipage}[t]{.5\textwidth}%
+    \IPZ@university\\
+    \IPZ@institute\\
+    \ifthenelse{\isempty{\IPZ@term}}{%
+      \PackageWarningNoLine{IPZstyle}{\string\term\space undefined}
+      }{%
+      \IPZ@term
+    }
+  \end{minipage}\par
+  \vspace{6em}
+  \begin{minipage}[t]{\textwidth}
+    \ifthenelse{\isempty{\IPZ@course}}{%
+      \PackageWarningNoLine{IPZstyle}{\string\course\space undefined}
+      }{%
+      \IPZ@course
+    }\par
+    \vspace{.4em}
+    \ifthenelse{\isempty{\IPZ@lecturer}}{%
+      \PackageWarningNoLine{IPZstyle}{\string\lecturer\space undefined}
+      }{%
+      \IPZ@lecturer
+    }\par
+  \end{minipage}\par
+  \null\vspace{6em}
+  \hspace*{4em}
+  \begin{minipage}[t]{.8\textwidth}
+    {\titlefont\large\mdseries\ifx\IPZ@type\@empty\else\IPZ@type\par\vspace{2em}\fi}%
+    {\titlefont\huge \IPZ@title\par}%
+    \vskip 1em
+    {\ifx\IPZ@subtitle\@empty\else\usekomafont{subtitle}\Large\IPZ@subtitle\par\fi}%
+  \end{minipage}\par
+  \vspace{4em}
+  \hspace*{4em}
+  \begin{minipage}[t]{.8\textwidth} 
+    {\titlefont\large\mdseries \IPZ@date}%
+  \end{minipage}\par
+  \vfill
+  \begin{minipage}[t]{.8\textwidth}
+    \begin{tabular}[t]{l}
+    \vspace{.4em}\IPZ@authorref \\ 
+    \IPZ@author \\
+    \ifthenelse{\isempty{\IPZ@authorinfo}}{%
+      \PackageWarningNoLine{IPZstyle}{\string\authorinfo\space undefined}
+      }{%
+      \IPZ@authorinfo
+    }
+    \end{tabular}\par
+  \end{minipage}\par
+\end{titlepage}%
+}
+%%%%%%%%%%
 \endinput
