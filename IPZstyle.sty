@@ -16,9 +16,9 @@
 % 
 % TODO package description
 %
-% TODO set latex format requiremet
-% \NeedsTeXFormat{format}[release]
-\ProvidesPackage{IPZstyle}[2011/08/24 v0.1]
+%%%%%%%%%%
+\NeedsTeXFormat{LaTeX2e}[1995/06/01]
+\ProvidesPackage{IPZstyle}[2011/10/25 v0.8]
 %%%%%%%%%%
 \RequirePackage{xkeyval}
 \RequirePackage{xifthen}
@@ -63,7 +63,7 @@
 \ifthenelse{\equal{\KOMAClassName}{scrartcl}}{%
 \PassOptionsToClass{paper=a4}{scrartcl}%
 \PassOptionsToClass{twoside=false}{scrartcl}%
-\renewcommand*{\@fontsizefilebase}{scrsize12pt.clo}
+\renewcommand*{\@fontsizefilebase}{scrsize12pt.clo}%
 }{%
 \PackageWarningNoLine{IPZstyle}{KOMA-Script article class is 
 not loaded.\MessageBreak IPZstyle works best with 'scrartcl'}
