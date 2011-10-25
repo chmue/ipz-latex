@@ -95,20 +95,11 @@ not loaded.\MessageBreak IPZstyle works best with 'scrartcl'}
 \newcommand*{\type}[1]{\newcommand*{\IPZ@type}{#1}}
 \global\let\IPZ@type\@empty
 \global\let\IPZ@type\relax
-% FIXME don't change \title etc. commands bc. this will very 
-% likely break class functionalities
-\renewcommand*{\title}[1]{\newcommand*{\IPZ@title}{#1}}
-\global\let\IPZ@title\@empty
-\global\let\IPZ@title\relax
-\renewcommand*{\subtitle}[1]{\newcommand*{\IPZ@subtitle}{#1}}
-\global\let\IPZ@subtitle\@empty
-\global\let\IPZ@subtitle\relax
-\renewcommand*{\date}[1]{\newcommand*{\IPZ@date}{#1}}
-\global\let\IPZ@date\@empty
-\global\let\IPZ@date\relax
-\renewcommand*{\author}[1]{\newcommand*{\IPZ@author}{#1}}
-\global\let\IPZ@author\@empty
-\global\let\IPZ@author\relax
+% "import" definitions from base latex and koma-script
+\newcommand*{\IPZ@title}{\@title}
+\newcommand*{\IPZ@subtitle}{\@subtitle}
+\newcommand*{\IPZ@date}{\@date}
+\newcommand*{\IPZ@author}{\@author}
 \newcommand*{\authorinfo}[1]{\newcommand*{\IPZ@authorinfo}{#1}}
 \global\let\IPZ@authorinfo\@empty
 \global\let\IPZ@authorinfo\relax
