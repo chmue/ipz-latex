@@ -23,21 +23,15 @@
 \RequirePackage{xkeyval}
 \RequirePackage{xifthen}
 %%%%%%%%%%
-% TODO make option to enable unicode input encoding
-% \define@boolkey+{IPZstyle.sty}{unicode}{%
-% \ifIPstyle.sty\unicode
-% \else
-% \fi
-% }{%
-% \PackageWarning{IPZstyle}{erroneous input ignored}%
-% }
-%
-\define@choicekey*+{IPZstyle.sty}{os}[\val\nr]{mac,win}[mac]{%
+\define@choicekey*+{IPZstyle.sty}{os}[\val\nr]{mac,win,unicode}[unicode]{%
 \ifcase\nr\relax
 \PassOptionsToPackage{mac-roman}{inputenx}
 \PassOptionsToPackage{T1}{fontenc}
 \or
 \PassOptionsToPackage{latin1}{inputenx}
+\PassOptionsToPackage{T1}{fontenc}
+\or
+\PassOptionsToPackage{utf8x}{inputenx}
 \PassOptionsToPackage{T1}{fontenc}
 \fi
 }{%
